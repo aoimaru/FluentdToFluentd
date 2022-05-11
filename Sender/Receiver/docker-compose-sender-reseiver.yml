@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  fluentd:
+    name: sender_receiver_fluentd
+    image: fluent/fluentd:v1.3.2
+    restart: always
+    command: >
+      /usr/bin/fluentd -c /fluentd/etc/receiver_tail_file.conf -v
+    ports:
+      - "127.0.0.1:24225:24225"
+      - "127.0.0.1:24225:24225/udp"
+    volumes:
+      - ${PWD}/log:/fluentd/log
+      - ${PWD}/tmp/etc/receiver_tail_file.conf:/fluentd/etc/receiver_tail_file.conf:ro
